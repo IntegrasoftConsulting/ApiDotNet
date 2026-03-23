@@ -1,0 +1,22 @@
+{
+  "name": "C# (.NET 9) - Laboratorio SOLID",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:9.0",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-dotnettools.csharp",
+        "ms-dotnettools.csdevkit",
+        "ms-dotnettools.vscode-dotnet-runtime",
+        "visualstudiocodesnippets.csharp-snippets",
+        "ericphan.dotnet-test-explorer"
+      ],
+      "settings": {
+        "dotnet.help.firstTimeExperience": false
+      }
+    }
+  },
+  "forwardPorts": [5000, 5001],
+  // Se agrega el comando para instalar Moq en el proyecto de pruebas tras la creación del contenedor
+  "postCreateCommand": "dotnet restore && dotnet add tests/SolidLab.Tests/SolidLab.Tests.csproj package Moq",
+  "remoteUser": "vscode"
+}
