@@ -14,3 +14,6 @@ dotnet tool install --global Microsoft.OpenApi.Kiota
     ]
   }
 }
+
+
+https://github.com/siri404/devcontainer-ai-features
