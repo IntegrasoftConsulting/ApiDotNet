@@ -1,16 +1,26 @@
 using Hexagonal.Application.Services;
 using Hexagonal.Domain.Ports;
 using Hexagonal.Infrastructure.Persistence;
+using Hexagonal.API.Handlers;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// 1. Agrego inyección de dependencias IoC
 builder.Services.AddScoped<IProductRepository, MySqlRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
+// 2. Registro el Handler
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails(); // Agrega metadatos estándar a los errores
+
+// 3. Agrego documentación con Swagger
 builder.Services.AddEndpointsApiExplorer();  // <-- aquí
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+// 4. Activo Middleware (Debe ir antes de los endpoints)
+app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
 {
@@ -30,6 +40,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+// Prueba de error para verificar que funciona
+app.MapGet("/error-test", () => { throw new Exception("¡Bomba en la infraestructura!"); });
 
 app.MapGet("/status", async (IProductService service) =>
 {

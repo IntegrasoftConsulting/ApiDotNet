@@ -8,7 +8,10 @@
         "ms-dotnettools.csdevkit",
         "ms-dotnettools.vscode-dotnet-runtime",
         "visualstudiocodesnippets.csharp-snippets",
-        "ericphan.dotnet-test-explorer"
+        "ericphan.dotnet-test-explorer",
+        "42Crunch.vscode-openapi", // Editor visual y seguridad de Swagger
+        "stoplight.spectral",      // Linter de especificaciones
+        "ms-azuretools.vscode-docker"
       ],
       "settings": {
         "dotnet.help.firstTimeExperience": false
