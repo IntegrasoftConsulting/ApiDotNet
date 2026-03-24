@@ -2,6 +2,7 @@ using Hexagonal.Application.Services;
 using Hexagonal.Domain.Ports;
 using Hexagonal.Infrastructure.Persistence;
 using Hexagonal.API.Handlers;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,9 +18,19 @@ builder.Services.AddProblemDetails(); // Agrega metadatos estándar a los errore
 builder.Services.AddEndpointsApiExplorer();  // <-- aquí
 builder.Services.AddSwaggerGen();
 
+// 4. Configurar Serilog
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .Enrich.FromLogContext()
+    .CreateLogger();
+
+builder.Host.UseSerilog(); // Reemplaza el logger por defecto de .NET
+
 var app = builder.Build();
 
-// 4. Activo Middleware (Debe ir antes de los endpoints)
+app.UseSerilogRequestLogging();
+
+// 5. Activo Middleware (Debe ir antes de los endpoints)
 app.UseExceptionHandler();
 
 if (app.Environment.IsDevelopment())
